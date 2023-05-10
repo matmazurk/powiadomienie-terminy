@@ -1,7 +1,13 @@
+import os
 import time
 import urllib.request
 import json
 import sys
+
+def notify(title, text):
+    os.system("""
+              osascript -e 'display notification "{}" with title "{}"'
+              """.format(text, title))
 
 locs = {
     "Kraków": 129,
@@ -21,8 +27,8 @@ if len(sys.argv) < 2:
 
 id = locs.get(sys.argv[1])
 if id is None:
-    print("Nie ma takiego miasta-{}".format(sys.argv[1]))
-    print(locs.keys())
+    print("Miasto '{}' niedostępne".format(sys.argv[1]))
+    print("Dostępne miasta:{}".format(list(locs.keys())))
     sys.exit(0)
 
 print("====================================")
@@ -44,6 +50,7 @@ while True:
     if odbior is None:
         print("Odbiór- Brak terminów")
     else:
+        notify("Termin odbioru {}".format(sys.argv[1]), "Odbiór- {}".format(odbior))
         print("Odbiór- {}".format(odbior))
 
     print("====================================")
