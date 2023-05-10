@@ -61,6 +61,5 @@ while True:
         notify("Nowe terminy paszportowe w {}".format(sys.argv[1]), notification)
 
     print("====================================")
-    # sleep 1 minute +/- 10 seconds
-    time.sleep(60 + (time.time() % 20 - 10))
+    time.sleep(20 + (time.time() % 20 - 10))
     
