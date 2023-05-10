@@ -40,18 +40,25 @@ while True:
     # print current timestamp
     print(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))
     print(sys.argv[1])
+
+    notification = ""
     wnioski = j[0]['operationSlots'][0]['dateTime']
     if wnioski is None:
         print("Wnioski- Brak terminów")
     else :
+        notification += "Wnioski- {}\n".format(wnioski)
         print("Wnioski- {}".format(wnioski))
 
     odbior = j[0]['operationSlots'][1]['dateTime']
     if odbior is None:
         print("Odbiór- Brak terminów")
     else:
-        notify("Termin odbioru {}".format(sys.argv[1]), "Odbiór- {}".format(odbior))
+        notification += "Odbiór- {}".format(odbior)
         print("Odbiór- {}".format(odbior))
+
+    # notify if notification is not empty 
+    if notification != "":
+        notify("Nowe terminy paszportowe w {}".format(sys.argv[1]), notification)
 
     print("====================================")
     # sleep 1 minute +/- 10 seconds
