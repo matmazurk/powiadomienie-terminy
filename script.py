@@ -10,14 +10,15 @@ def notify(title, text):
               """.format(text, title))
 
 locs = {
-    "Kraków": [129, 134],
-    "Nowy Sącz": [253],
-    "Tarnów": [252],
-    "Gorlice": [251],
-    "Limanowa": [250],
-    "Olkusz": [249],
-    "Oświęcim": [248],
-    "Wadowice": [247]
+    "Kraków_wnioski": 129,
+    "Kraków_odbior": 134,
+    "Nowy Sącz": 253,
+    "Tarnów": 252,
+    "Gorlice": 251,
+    "Limanowa": 250,
+    "Olkusz": 249,
+    "Oświęcim": 248,
+    "Wadowice": 247
 }
 
 if len(sys.argv) < 2:
@@ -33,12 +34,7 @@ if id is None:
 
 print("====================================")
 
-url = "https://bezkolejki.eu/api/Operation/GetFirstAvailableSlot?"
-cnt = 0
-for i in id:
-    url += "ids[{}]={}&".format(cnt, i)
-    cnt += 1
-url = url.removesuffix("&")
+url = "https://bezkolejki.eu/api/Operation/GetFirstAvailableSlot?ids[0]={}".format(id)
 
 while True:
     body = urllib.request.urlopen(url).read().decode('utf-8')
@@ -49,11 +45,10 @@ while True:
     print(sys.argv[1])
 
     notification = ""
-    for js in j:
-        for op in js['operationSlots']:
-            if op["dateTime"] is not None:
-                print("{}- {}".format(op["operationName"], op["dateTime"]))
-                notification += "{}- {}\n".format(op["operationName"], op["dateTime"])
+    for op in j[0]['operationSlots']:
+        if op["dateTime"] is not None:
+            print("{}- {}".format(op["operationName"], op["dateTime"]))
+            notification += "{}- {}\n".format(op["operationName"], op["dateTime"])
 
     # notify if notification is not empty 
     if notification != "":
